@@ -140,14 +140,18 @@
             // Only run code if there are no errors
             if (errorDisplay.textContent === '') {
                 const output = document.getElementById("output");
-                output.contentDocument.body.innerHTML = htmlCode;
-                const css = output.contentDocument.createElement('style');
-                css.textContent = cssCode;
-                output.contentDocument.head.appendChild(css);
-                
-                const script = output.contentDocument.createElement('script');
-                script.textContent = jsCode;
-                output.contentDocument.body.appendChild(script);
+                const combinedCode = `
+                    <html>
+                        <head>
+                            <style>${cssCode}</style>
+                        </head>
+                        <body>
+                            ${htmlCode}
+                            <script>${jsCode}<\/script>
+                        </body>
+                    </html>
+                `;
+                output.srcdoc = combinedCode;
             }
         }
 
@@ -155,7 +159,7 @@
             document.getElementById("htmlCode").value = '';
             document.getElementById("cssCode").value = '';
             document.getElementById("jsCode").value = '';
-            document.getElementById("output").contentDocument.body.innerHTML = '';
+            document.getElementById("output").srcdoc = '';
             document.getElementById("errorDisplay").textContent = '';
         }
     </script>
